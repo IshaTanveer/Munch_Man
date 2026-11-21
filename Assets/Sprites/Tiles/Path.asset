@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c31d7ad9aa22a2438c2aa48bf594646, type: 3}
+  m_Script: {fileID: 11500000, guid: dfe8795d278658142ac63ea575f80a58, type: 3}
   m_Name: Path
-  m_EditorClassIdentifier: Assembly-CSharp::WallRuleTile
+  m_EditorClassIdentifier: Assembly-CSharp::PathRuleTile
   m_DefaultSprite: {fileID: -5111575295794188215, guid: 2afd1fd2be90d0044a83cd4b14579c2d, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules: []
-  pathTiles: []
+  wallTiles: []

@@ -102,4 +102,4 @@ MonoBehaviour:
     - {x: 0, y: 1, z: 0}
     m_RuleTransform: 4
   pathTiles:
-  - {fileID: 11400000, guid: f5d9ae6d2ceca8c40877a94bc97e6f67, type: 2}
+  - {fileID: 11400000, guid: 46d378b4d1f6311478d501d003c7fd7d, type: 2}

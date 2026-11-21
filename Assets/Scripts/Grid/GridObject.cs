@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class GridObject // Represents  a single gridcell
 {
-    private Vector2Int cellPosition;
-    public GridObject(Vector2Int cellPosition)
+    //private fields
+    private GridCell cellPosition;
+    //properties and accesses
+    public GridObjectType type {get; set;} = GridObjectType.Empty; 
+    public GridCell GetCellposition() => cellPosition;
+    //constructor
+    public GridObject(GridCell cellPosition)
     {
         this.cellPosition = cellPosition;
     }
+    //methods
     public override string ToString()
     {
         //return base.ToString();
         return "GridObject " + cellPosition;
     }
-    public Vector2Int GetCellposition() => cellPosition;
 }
+public enum GridObjectType {Wall, Path, Empty}
