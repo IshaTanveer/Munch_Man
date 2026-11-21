@@ -9,6 +9,8 @@ public class GridManager : MonoBehaviour //visualize our grid
     private GameGrid grid;
     private static GridManager Instance; //Singleton
     public GridManager GetGridManager() => Instance;
+    private bool showGrid = true;
+    GridRenderer gridRenderer;
     void OnEnable()
     {
         if(Instance != null && Instance != this)
@@ -19,50 +21,64 @@ public class GridManager : MonoBehaviour //visualize our grid
         Instance = this;
         InitializeGrid();
     }
-    /*private void OnValidate() //when changes made in instructor initialize again
-    {
-        if(!Application.isPlaying) InitializeGrid();
-    }*/
     private void InitializeGrid()
     {
         if(tilemap == null) return;
+        tilemap.CompressBounds();//recalculate the bounds
         grid = new GameGrid(tilemap.size.x, tilemap.size.y);
+        gridRenderer = new GridRenderer(tilemap.origin);
     }
     private void OnDrawGizmos()
     {
-        if( tilemap == null || grid == null) return;
+        if( tilemap == null || grid == null || showGrid == false) return;
         Gizmos.color = Color.yellow;
-        Vector3 origin = transform.position;
+
         GridObject[,] gridObjects = grid.GetGridObjects();
         foreach (GridObject gridObject in gridObjects)
         {
-            int x = gridObject.GetCellposition().x;
-            int y = gridObject.GetCellposition().y;
+            int cellPosx = gridObject.GetCellposition().x;
+            int cellPosy = gridObject.GetCellposition().y;
+            int worldPosX = (int)gridRenderer.GetWorldPosition(cellPosx, cellPosy).x;
+            int worldPosY = (int)gridRenderer.GetWorldPosition(cellPosx, cellPosy).y;
 
-            Vector3 startVertical = origin + new Vector3(x, y);
-            Vector3 endVertical = origin + new Vector3(x, y + 1);
+            Vector3 startVertical = new Vector3(worldPosX, worldPosY);
+            Vector3 endVertical = new Vector3(worldPosX, worldPosY + 1);
             Gizmos.DrawLine(startVertical, endVertical);
 
-            Vector3 startHorizontal = origin + new Vector3(x, y);
-            Vector3 endHorizontal = origin + new Vector3(x + 1, y);
+            Vector3 startHorizontal = new Vector3(worldPosX, worldPosY);
+            Vector3 endHorizontal = new Vector3(worldPosX + 1, worldPosY);
             Gizmos.DrawLine(startHorizontal, endHorizontal);
 
             GUIStyle textStyle = new GUIStyle();
             textStyle.normal.textColor = Color.white;
             textStyle.alignment = TextAnchor.MiddleCenter;
             
-            Vector3 cellCenter = origin + new Vector3(x + 0.5f, y + 0.5f);
-            Handles.Label(cellCenter, $"({x}, {y})", textStyle);
+            Vector3 cellCenter = new Vector3(worldPosX + 0.5f, worldPosY + 0.5f);
+            Handles.Label(cellCenter, $"({cellPosx}, {cellPosy})", textStyle);
         }
         int tilemapHeight = grid.Height;
         int tilemapWidth = grid.Width;
 
-        Vector3 startVer = origin + new Vector3(tilemapWidth, 0);
-        Vector3 endVer = origin + new Vector3(tilemapWidth, tilemapHeight);
+        int originWorldSpaceX = (int)gridRenderer.GetWorldPosition(0,0).x;
+        int originWorldSpaceY = (int)gridRenderer.GetWorldPosition(0,0).y;
+
+        int widthWorldSpace = (int)gridRenderer.GetWorldPosition(tilemapWidth, tilemapHeight).x;
+        int heightWorldSpace = (int)gridRenderer.GetWorldPosition(tilemapWidth, tilemapHeight).y;
+
+        Vector3 startVer = new Vector3(widthWorldSpace, originWorldSpaceY);
+        Vector3 endVer = new Vector3(widthWorldSpace, heightWorldSpace);
         Gizmos.DrawLine(startVer, endVer);
 
-        Vector3 startHor = origin + new Vector3(0, tilemapHeight);
-        Vector3 endHor = origin + new Vector3(tilemapWidth, tilemapHeight);
+        Vector3 startHor = new Vector3(originWorldSpaceX, heightWorldSpace);
+        Vector3 endHor = new Vector3(widthWorldSpace, heightWorldSpace);
         Gizmos.DrawLine(startHor, endHor);
+    }
+    public void RegenerateGrid()
+    {
+        InitializeGrid();
+    }
+    public void ToggleGrid()
+    {
+        showGrid = !showGrid;
     }
 }
