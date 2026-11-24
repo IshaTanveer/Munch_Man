@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     Vector2 moveTarget;
     float playerSize;
     GridManager grid;
+    //public event Action<bool> OnMoveStateChanged;
+    public event Action<Vector2> OnDirectionChanged;
     void Start()
     {
         shouldMove = true;
@@ -29,14 +31,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!shouldMove) return;
 
-        if (!grid.HasReachedCellCenter(previousInputDir, transform.position)) {
-            moveTarget = GetTarget(previousInputDir);
-            //Move();
-        }
-        else {
-            moveTarget = GetTarget(currentInputDir);
-            //Move();
-        }
+        if (!grid.HasReachedCellCenter(previousInputDir, transform.position)) moveTarget = GetTarget(previousInputDir);
+        else moveTarget = GetTarget(currentInputDir);
         Move();
     }
 
@@ -50,26 +46,26 @@ public class PlayerMovement : MonoBehaviour
     {
         if(context.phase == InputActionPhase.Started) { 
             //shouldMove = true; 
+           // OnMoveStateChanged?.Invoke(true);
             return; 
         }
         if(context.phase == InputActionPhase.Canceled) { 
             //shouldMove = false; 
+            //OnMoveStateChanged?.Invoke(false);
             return; 
         }
-
         Vector2 newDirection = context.ReadValue<Vector2>();
         if(!IsValidDirection(newDirection)) return;
 
         //fix for when oscillating, when player only needs to switch direction
         HandleDirectionsSwitch(newDirection);
+        OnDirectionChanged?.Invoke(newDirection);
         
     }
     void HandleDirectionsSwitch(Vector2 moveDir)
     {
-        //turn
-        previousInputDir = currentInputDir;
-        currentInputDir = moveDir;
-        //direction switch
+        previousInputDir = currentInputDir;//turn
+        currentInputDir = moveDir; //direction switch
         if (ShouldSwitchDirection())
         {
             previousInputDir = moveDir;
