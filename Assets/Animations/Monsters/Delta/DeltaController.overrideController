@@ -7,5 +7,13 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DeltaController
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 2cf70ea4a12d7c84389ebab796775338, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: c9b64305167debd45b47d1109793bf23, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 75452556704c0324ba8e19248bc984da, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0a24eba010dd26b4fa5c3bac57f0e807, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 592d5e0a7210b754494db2fe8b9951c9, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9850a51ce4ae5604e949c502d5a32a25, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ddaf806a67ca4954e8a8f9ba00be56e7, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 496c3b0759459664f906a49581d51f65, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 04806884d720c0a4793947ae8c46933f, type: 2}

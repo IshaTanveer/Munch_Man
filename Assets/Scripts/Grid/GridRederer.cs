@@ -43,13 +43,13 @@ public class GridRenderer
         float yDistanceFromCellStart = posIngridcoordinates.y - Mathf.Floor(posIngridcoordinates.y);
 
         float distanceToCenter = size/2;
-
+        const float eps = 0.001f;
         switch (direction)
         {
-            case Direction.Up : return yDistanceFromCellStart >= distanceToCenter;
-            case Direction.Down : return yDistanceFromCellStart <= distanceToCenter;
-            case Direction.Right : return xDistanceFromCellStart >= distanceToCenter;
-            case Direction.Left : return xDistanceFromCellStart <= distanceToCenter;
+            case Direction.Up : return yDistanceFromCellStart >= distanceToCenter - eps;
+            case Direction.Down : return yDistanceFromCellStart <= distanceToCenter + eps;
+            case Direction.Right : return xDistanceFromCellStart >= distanceToCenter - eps;
+            case Direction.Left : return xDistanceFromCellStart <= distanceToCenter + eps;
             default: return false;
         }
     }

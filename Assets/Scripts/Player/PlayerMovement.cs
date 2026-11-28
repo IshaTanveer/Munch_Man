@@ -1,5 +1,4 @@
 using System;
-using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        Debug.DrawRay(transform.position, (Vector3)moveTarget - transform.position, Color.red);
+        Debug.DrawRay(transform.position, (Vector3)moveTarget - transform.position, Color.cyan);
         transform.position = Vector2.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
     }
 

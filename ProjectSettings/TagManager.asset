@@ -44,6 +44,12 @@ TagManager:
   - name: Tilemap
     uniqueID: 3547480795
     locked: 0
+  - name: Props
+    uniqueID: 1164640789
+    locked: 0
+  - name: Monster
+    uniqueID: 3293994145
+    locked: 0
   - name: Player
     uniqueID: 893303229
     locked: 0
