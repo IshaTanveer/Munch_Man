@@ -4,12 +4,14 @@ using UnityEngine;
 public class MonsterAiDebugger : MonoBehaviour
 {
     MonsterController monsterController;
-    List<Vector2> ProjectedPaths = new();
+    List<(Vector2 dir, Vector2 path)> Paths = new();
     [SerializeField] GameObject pathPrefab;
     List<GameObject> VisualizedPaths = new();
+    Transform debugParent;
     void Start()
     {
         monsterController = GetComponent<MonsterController>();
+        debugParent = GameObject.FindGameObjectWithTag("Debug").transform;
     }
     void Update()
     {
@@ -19,7 +21,7 @@ public class MonsterAiDebugger : MonoBehaviour
     }
     void CleanUp()
     {
-        ProjectedPaths.Clear();
+        Paths.Clear();
         foreach (GameObject path in VisualizedPaths)
         {
             Destroy(path);
@@ -34,17 +36,19 @@ public class MonsterAiDebugger : MonoBehaviour
         int count = 100;
         while (finalTargetpos != currentTarget.currentTargetpos && count > 0)
         {
-            currentTarget.currentTargetpos = MonsterAINavigation.GetNextInterMediateTarget(currentTarget.currentDirection, currentTarget.currentTargetpos, finalTargetpos).resultPos;
-            ProjectedPaths.Add(currentTarget.currentTargetpos);
+            currentTarget = MonsterAINavigation.GetNextInterMediateTarget(currentTarget.currentDirection, currentTarget.currentTargetpos, finalTargetpos);
+            Paths.Add(currentTarget);
             count--;
         }
     }
     void updatePathVisualization()
     {
-        foreach (Vector2 path in ProjectedPaths)
+        foreach ((Vector2 dir, Vector2 pos) path in Paths)
         {
-            GameObject VisualizedPath = Instantiate(pathPrefab, path, Quaternion.identity);
+            GameObject VisualizedPath = Instantiate(pathPrefab, path.pos, Quaternion.identity);
+            VisualizedPath.transform.parent = debugParent;
             VisualizedPaths.Add(VisualizedPath);
+            VisualizedPath.GetComponent<PathVisuallizerSetup>().SetUp(monsterController.MonsterConf.MonsterColor, path.dir);
         }
     }
 }

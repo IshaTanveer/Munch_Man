@@ -7,6 +7,8 @@ public class MonsterController : MonoBehaviour{
     [SerializeField] Transform targetTransform;
     Vector2 finalTarget;
     public Vector2 FinalTarget => finalTarget;
+    [SerializeField] MonsterConf_SO monsterConf;
+    public MonsterConf_SO MonsterConf => monsterConf;
     public Vector2 CurrentTarget {
         get => currentTarget;
         set => currentTarget = value;
